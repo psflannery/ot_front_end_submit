@@ -88,12 +88,12 @@ function ot_do_frontend_form_submission_shortcode( $atts = array() ) {
 	$post_types = $cmb->prop( 'object_types' );
 
 	// Current user
-	$user_id = get_current_user_id();
+	//$user_id = get_current_user_id();
+	$user_id = 7;
 
 	// Parse attributes
 	$atts = shortcode_atts( array(
-		//'post_author' => $user_id ? $user_id : 7, // Current user, or admin
-		'post_author' => 7, // Current user, or admin
+		'post_author' => $user_id ? $user_id : 1, // Current user, or admin
 		'post_status' => 'pending',
 		'post_type'   => reset( $post_types ), // Only use first object_type in array
 	), $atts, 'user-submit-frontend-form' );
@@ -118,7 +118,7 @@ function ot_do_frontend_form_submission_shortcode( $atts = array() ) {
 	// Get any submission errors
 	if ( ( $error = $cmb->prop( 'submission_error' ) ) && is_wp_error( $error ) ) {
 		// If there was an error with the submission, add it to our ouput.
-		$output .= '<h3>' . sprintf( __( 'There was an error in the submission: %s', 'ot-post-submit' ), '<strong>'. $error->get_error_message() .'</strong>' ) . '</h3>';
+		$output .= '<h3 class="label label-error">' . sprintf( __( 'There was an error in the submission: %s', 'ot-post-submit' ), '<strong>'. $error->get_error_message() .'</strong>' ) . '</h3>';
 	}
 
 	// If the post was submitted successfully, notify the user.
@@ -129,7 +129,7 @@ function ot_do_frontend_form_submission_shortcode( $atts = array() ) {
 		$name = $name ? ' '. $name : '';
 
 		// Add notice of submission to our output
-		$output .= '<h3>' . sprintf( __( 'Thank you%s, your new post has been submitted and is pending review by a site administrator.', 'ot-post-submit' ), esc_html( $name ) ) . '</h3>';
+		$output .= '<h3 class="label label-success">' . sprintf( __( 'Thank you%s, your link has been submitted and is pending review.', 'ot-post-submit' ), esc_html( $name ) ) . '</h3>';
 	}
 
 	// Get our form
