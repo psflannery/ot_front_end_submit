@@ -154,6 +154,28 @@ function opening_times_cmb2_save_form_modify( $form_format ) {
 add_filter( 'cmb2_get_metabox_form_format', 'opening_times_cmb2_save_form_modify' );
 
 /**
+ * Get title of the website via link and use as the post title
+ *
+ */
+function get_title_from_url($url){
+	if ( ! is_admin() ) {
+		$response = wp_safe_remote_head( $url, array( 'timeout' => 5 ) );
+
+		if ( ! is_wp_error( $response ) ) {
+
+			$str = wp_remote_retrieve_body( wp_remote_get( $url ) );
+
+			if( strlen($str)>0 ){
+				preg_match("/\<title\b.*\>(.*)\<\/title\>/i", $str, $title); // ignore case, allow for attributes
+				return $title[1];
+			}
+		}
+		// Not sure how we got here, but if all else fails, use the url as the title.
+		return $url;
+	}
+}
+
+/**
  * Handles form submission on save. Redirects if save is successful, otherwise sets an error message as a cmb property
  *
  * @return void
@@ -205,25 +227,6 @@ function ot_handle_frontend_new_post_form_submission() {
 
 	if ( $_POST['_ot_bv_link_submit_link'] && ! in_array( wp_remote_retrieve_response_code( $response ), $accepted_status_codes )  ) {
 		return $cmb->prop( 'submission_error', new WP_Error( 'invalid_url', __( 'That URL doesn\'t seem to exist or is currently down, please try again.' ) ) );
-	}
-
-	// Get title of the website via link and use as the post title
-	function get_title_from_url($url){
-		//if ( ! is_admin() ) {
-			$response = wp_safe_remote_head( $url, array( 'timeout' => 5 ) );
-
-			if ( ! is_wp_error( $response ) ) {
-
-				$str = wp_remote_retrieve_body( wp_remote_get( $url ) );
-
-				if( strlen($str)>0 ){
-					preg_match("/\<title\b.*\>(.*)\<\/title\>/i", $str, $title); // ignore case, allow for attributes
-					return $title[1];
-				}
-			}
-			// Not sure how we got here, but if all else fails, use the url as the title.
-			return $url;
-		//}
 	}
 
 	// Set the Title
