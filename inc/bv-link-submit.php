@@ -209,7 +209,7 @@ function ot_handle_frontend_new_post_form_submission() {
 
 	// Get title of the website via link and use as the post title
 	function get_title_from_url($url){
-		if ( ! is_admin() ) {
+		//if ( ! is_admin() ) {
 			$response = wp_safe_remote_head( $url, array( 'timeout' => 5 ) );
 
 			if ( ! is_wp_error( $response ) ) {
@@ -223,17 +223,20 @@ function ot_handle_frontend_new_post_form_submission() {
 			}
 			// Not sure how we got here, but if all else fails, use the url as the title.
 			return $url;
-		}
+		//}
 	}
 
 	// Set the Title
 	$get_title_from_url = get_title_from_url($url);
 
 	// Set our post data arguments
-	$post_data['post_title']   = $get_title_from_url;
+	$post_data['post_title'] = $get_title_from_url;
 	unset( $get_title_from_url );
 	$post_data['post_content'] = $sanitized_values['_ot_bv_link_submit_reason'];
 	unset( $sanitized_values['_ot_bv_link_submit_reason'] );
+	//// Would be preferable to add these to the shortcode attributes, but we'll set them here for now.
+	$post_data['post_category'] = array(22);
+	$post_data['tax_input'] = array ( 'post_format' => array( 'post-format-link' ) );
 
 	// Create the new post
 	$new_submission_id = wp_insert_post( $post_data, true );
@@ -241,6 +244,18 @@ function ot_handle_frontend_new_post_form_submission() {
 	// If we hit a snag, update the user
 	if ( is_wp_error( $new_submission_id ) ) {
 		return $cmb->prop( 'submission_error', $new_submission_id );
+	}
+
+	// Loop through remaining (sanitized) data, and save to post-meta
+	foreach ( $sanitized_values as $key => $value ) {
+		if ( is_array( $value ) ) {
+			$value = array_filter( $value );
+			if( ! empty( $value ) ) {
+				update_post_meta( $new_submission_id, $key, $value );
+			}
+		} else {
+			update_post_meta( $new_submission_id, $key, $value );
+		}
 	}
 
 	/*
