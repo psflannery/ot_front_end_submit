@@ -91,15 +91,11 @@ function ot_do_frontend_form_submission_shortcode( $atts = array() ) {
 	//$user_id = get_current_user_id();
 	$user_id = 9;
 
-	// Post Category
-	//$post_categories = array(22); // Website, Uncategorised
-
 	// Parse attributes
 	$atts = shortcode_atts( array(
 		'post_author' => $user_id ? $user_id : 1, // Current user, or admin
 		'post_status' => 'pending',
 		'post_type'   => reset( $post_types ), // Only use first object_type in array
-		//'post_category'  => reset( $post_categories ),
 	), $atts, 'user-submit-frontend-form' );
 
 	/*
@@ -166,6 +162,7 @@ function get_title_from_url($url){
 			$str = wp_remote_retrieve_body( wp_remote_get( $url ) );
 
 			if( strlen($str)>0 ){
+				//$str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
 				preg_match("/\<title\b.*\>(.*)\<\/title\>/i", $str, $title); // ignore case, allow for attributes
 				return $title[1];
 			}
@@ -237,8 +234,12 @@ function ot_handle_frontend_new_post_form_submission() {
 	unset( $get_title_from_url );
 	$post_data['post_content'] = $sanitized_values['_ot_bv_link_submit_reason'];
 	unset( $sanitized_values['_ot_bv_link_submit_reason'] );
+
 	//// Would be preferable to add these to the shortcode attributes, but we'll set them here for now.
-	$post_data['post_category'] = array(22);
+	// select the category from the theme customiser
+	$bv_links_category = get_theme_mod( 'ot_bv_user_selected_links_cat' );
+
+	$post_data['post_category'] = array($bv_links_category);
 	$post_data['tax_input'] = array ( 'post_format' => array( 'post-format-link' ) );
 
 	// Create the new post
