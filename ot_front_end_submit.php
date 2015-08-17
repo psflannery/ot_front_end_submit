@@ -20,6 +20,7 @@
  * Author URI:	http://paulflannery.co.uk
  * Text Domain:	opening_times
  * License: 	GPL-2.0+
+ * GitHub Plugin URI: https://github.com/psflannery/ot_front_end_submit
  *
  * Copyright 2015 Paul Flannery <psflannery@gmail.com>
  *
