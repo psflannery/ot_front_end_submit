@@ -87,9 +87,19 @@ function ot_do_frontend_form_submission_shortcode( $atts = array() ) {
 	// Get $cmb object_types
 	$post_types = $cmb->prop( 'object_types' );
 
+	/**
+	 * Get the user id from the display name.
+	 * This is an attempt to sync between dev and production environments. 
+	 * ID's are pretty flaky when switching from one to the other.
+	 */
+	
 	// Current user
-	//$user_id = get_current_user_id();
-	$user_id = 9;
+	/* Use customiser */
+	$user_id = get_theme_mod( 'ot_bv_user_selected_links_author' );
+
+	/* or get the id from the slug */
+	//$user = get_user_by('slug', 'anon');
+	//$user_id = $user->ID;
 
 	// Parse attributes
 	$atts = shortcode_atts( array(
@@ -105,8 +115,8 @@ function ot_do_frontend_form_submission_shortcode( $atts = array() ) {
 	foreach ( $atts as $key => $value ) {
 		$cmb->add_hidden_field( array(
 			'field_args'  => array(
-				'id'    => "atts[$key]",
-				'type'  => 'hidden',
+				'id' => "atts[$key]",
+				'type' => 'hidden',
 				'default' => $value,
 			),
 		) );
@@ -235,7 +245,6 @@ function ot_handle_frontend_new_post_form_submission() {
 	$post_data['post_content'] = $sanitized_values['_ot_bv_link_submit_reason'];
 	unset( $sanitized_values['_ot_bv_link_submit_reason'] );
 
-	//// Would be preferable to add these to the shortcode attributes, but we'll set them here for now.
 	// select the category from the theme customiser
 	$bv_links_category = get_theme_mod( 'ot_bv_user_selected_links_cat' );
 
