@@ -15,7 +15,7 @@
  * Plugin Name:	      OT front end submission form
  * Plugin URI:	      http://otdac.org
  * Description:	      Adds a front end submission form to the site via a short-code, so that visitors can add their own content.
- * Version: 	      1.1.0
+ * Version: 	      1.2.0
  * Author: 		      Paul Flannery
  * Author URI:	      http://paulflannery.co.uk
  * Text Domain:	      opening_times
@@ -32,5 +32,6 @@ if ( ! defined( 'WPINC' ) ) {
 // Plugin Directory 
 define( 'OT_FRONT_END_DIR', dirname( __FILE__ ) );
 include_once( OT_FRONT_END_DIR . '/inc/bv-link-submit.php' );
+include_once( OT_FRONT_END_DIR . '/inc/customizer-controls.php' );
 include_once( OT_FRONT_END_DIR . '/inc/page_templater.php' );
 include_once( OT_FRONT_END_DIR . '/inc/extras.php' );
