@@ -1,7 +1,7 @@
 # ot_front_end_submit
 As part of Ben Vickers' Opening Times Reading section, users will be asked to submit a link of their choice along with a short explanation as to why they have chosen it. These submission will be gathered and periodically pubished, to create an archive of the project.
 
-Version: 1.1.0 Date: 29/8/15
+Version: 1.2.0 Date: 06/09/15
 
 # Still a work in progress
 Creates a shortcode that renders a form enabling users to submit links and a description to the site. Submissions are marked as pending and published upon review.
