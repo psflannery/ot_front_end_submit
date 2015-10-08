@@ -230,7 +230,7 @@ function ot_handle_frontend_new_post_form_submission() {
 	// Check the link is valid
 	$url = $sanitized_values['_ot_bv_link_submit_link'];
 	$response = wp_safe_remote_head( $url, array( 'timeout' => 5 ) );
-	$accepted_status_codes = array( 200, 301, 302 );
+	$accepted_status_codes = array( 200, 301, 302, 404 );
 
 	if ( $_POST['_ot_bv_link_submit_link'] && ! in_array( wp_remote_retrieve_response_code( $response ), $accepted_status_codes )  ) {
 		return $cmb->prop( 'submission_error', new WP_Error( 'invalid_url', __( 'That URL doesn\'t seem to exist or is currently down, please try again.' ) ) );
