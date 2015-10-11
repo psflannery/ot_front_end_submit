@@ -31,9 +31,10 @@ add_filter( 'post_class', 'opening_times_bv_link_submit_post_classes', 10, 3 );
 function opening_times_bv_link_submitter() {
 	global $post;
 	$submitted_by = get_post_meta( $post->ID, '_ot_bv_link_submit_name', true );
+	$label = esc_html__( 'Submitted by: ', 'opening_times' );
 	if ( '' != $submitted_by ) :
-		echo $submitted_by;
+		echo $label, $submitted_by;
 	else :
-		esc_html_e( 'Anonymous', 'opening_times' );
+		echo $label, esc_html__( 'Anonymous', 'opening_times' );
 	endif;
 }
