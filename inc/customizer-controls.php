@@ -68,7 +68,7 @@ add_action( 'customize_register', 'ot_bv_front_end_submit_customize_register' );
 /**
  * Sanitize the Integer Inputs.
  */
-function ot_bv_front_end_submit_sanitize_integer( $input ) {
+function ot_front_end_submit_sanitize_integer( $input ) {
     if( is_numeric( $input ) ) {
         return intval( $input );
     }
