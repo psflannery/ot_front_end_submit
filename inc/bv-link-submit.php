@@ -50,6 +50,7 @@ function ot_frontend_form_register() {
 		'attributes'  => array(
 			'class' => 'form-control textarea-vert',
 			'required' => 'required',
+			//'data-validation' => 'required',
 			'rows' => 6,
 		),
 		'row_classes' => 'form-group',
