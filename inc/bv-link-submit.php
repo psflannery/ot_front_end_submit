@@ -42,6 +42,17 @@ function ot_frontend_form_register() {
 		),
 		'row_classes' => 'form-group',
 	) );
+
+	$cmb->add_field( array(
+		'name' => __( '', 'opening_times' ),
+		'id'   => $prefix . 'email_honeypot',
+		'type' => 'text_email',
+		'attributes'  => array(
+			'class' => 'form-control form-control-small hidden',
+			'type' => 'email',
+		),
+		'row_classes' => 'form-group',
+	) );
 	
 	$cmb->add_field( array(
 		'name' => __( 'Reason', 'opening_times' ),
@@ -50,10 +61,12 @@ function ot_frontend_form_register() {
 		'attributes'  => array(
 			'class' => 'form-control textarea-vert',
 			'required' => 'required',
+			//'data-validation' => 'required',
 			'rows' => 6,
 		),
 		'row_classes' => 'form-group',
 	) );
+
 }
 add_action( 'cmb2_init', 'ot_frontend_form_register' );
 
@@ -220,6 +233,11 @@ function ot_handle_frontend_new_post_form_submission() {
 	// And that the title is not the default title
 	if ( $cmb->get_field( '_ot_bv_link_submit_link' )->default() == $_POST['_ot_bv_link_submit_link'] ) {
 		return $cmb->prop( 'submission_error', new WP_Error( 'post_data_missing', __( 'Please enter a new title.' ) ) );
+	}
+
+	// Anti-spam honeypot - reject any submissions with this field isn't empty 
+	if ( ! empty( $_POST['_ot_bv_link_submit_email_honeypot'] ) ) {
+		return $cmb->prop( 'submission_error', new WP_Error( 'post_data_missing', __( 'Sorry, we can\'t accept this submission.' ) ) );
 	}
 
 	/**

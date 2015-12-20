@@ -33,5 +33,6 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'OT_FRONT_END_DIR', dirname( __FILE__ ) );
 include_once( OT_FRONT_END_DIR . '/inc/bv-link-submit.php' );
 include_once( OT_FRONT_END_DIR . '/inc/customizer-controls.php' );
-include_once( OT_FRONT_END_DIR . '/inc/page_templater.php' );
+//include_once( OT_FRONT_END_DIR . '/inc/cmb2-js-validation-required.php' );
+//include_once( OT_FRONT_END_DIR . '/inc/page_templater.php' );
 include_once( OT_FRONT_END_DIR . '/inc/extras.php' );
