@@ -40,7 +40,7 @@ get_header(); ?>
 
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<header id="<?php opening_times_the_slug(); ?>" class="entry-header gradientee strap-header">
-						<h2 class="header-details archive-header-details col-sm-3"><?php echo opening_times_bv_link_submitter() ?></h2>
+						<h2 class="header-details archive-header-details col-sm-3"><?php opening_times_do_link_submitter() ?></h2>
 						<h1 class="header-details archive-header-details col-sm-4"><?php the_title(); ?></h1>
 						<h3 class="header-details archive-header-details col-sm-2"><?php opening_times_category_no_link(); ?></h3>
 						<h3 class="header-details archive-header-details col-sm-1 header-details-last"><?php echo get_the_time('Y', $post->ID); ?></h3>

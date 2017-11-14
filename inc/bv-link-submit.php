@@ -15,7 +15,7 @@ function ot_frontend_form_register() {
 	
 	$cmb = new_cmb2_box( array(
 		'id'           => $prefix . 'front-end-post-form',
-		'object_types' => array( 'article' ),
+		'object_types' => array( 'reading' ),
 		'hookup'       => false,
 		'save_fields'  => false,
 		'cmb_styles'   => false,
@@ -149,7 +149,7 @@ function ot_do_frontend_form_submission_shortcode( $atts = array() ) {
 
 		// Get submitter's name
 		$name = get_post_meta( $post->ID, '_ot_bv_link_submit_name', 1 );
-		$name = $name ? ' '. $name : '';
+		$name = $name ? ' ' . $name : '';
 
 		// Add notice of submission to our output
 		$output .= '<h3 class="label label-success">' . sprintf( __( 'Thank you%s, your link has been submitted and is pending review.', 'ot-post-submit' ), esc_html( $name ) ) . '</h3>';
@@ -167,7 +167,7 @@ add_shortcode( 'user-submit-frontend-form', 'ot_do_frontend_form_submission_shor
  *
  */
 function opening_times_cmb2_save_form_modify( $form_format ) {	
-	$form_format = str_replace( 'class="button-primary"', 'class="ot-button ot-button-no-float button-primary"', $form_format );
+	$form_format = str_replace( 'class="button-primary"', 'class="btn btn-outline-secondary"', $form_format );
 	return $form_format;
 }
 add_filter( 'cmb2_get_metabox_form_format', 'opening_times_cmb2_save_form_modify' );
@@ -190,6 +190,7 @@ function get_title_from_url($url){
 				return $title[1];
 			}
 		}
+		
 		// Not sure how we got here, but if all else fails, use the url as the title.
 		return $url;
 	}
@@ -235,7 +236,7 @@ function ot_handle_frontend_new_post_form_submission() {
 		return $cmb->prop( 'submission_error', new WP_Error( 'post_data_missing', __( 'Please enter a new title.' ) ) );
 	}
 
-	// Anti-spam honeypot - reject any submissions with this field isn't empty 
+	// Anti-spam honeypot - reject any submissions when this field isn't empty 
 	if ( ! empty( $_POST['_ot_bv_link_submit_email_honeypot'] ) ) {
 		return $cmb->prop( 'submission_error', new WP_Error( 'post_data_missing', __( 'Sorry, we can\'t accept this submission.' ) ) );
 	}

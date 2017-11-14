@@ -19,7 +19,8 @@ function ot_bv_front_end_submit_customize_register( $wp_customize ) {
 		array(
 			'title'       => 'User Submitted Links',
 			'description' => sprintf( __( 'Configure the category and user to loop through for the submitted links section.', 'opening_times' ) ),
-			'priority'    => 125
+			'priority'    => 125,
+			'panel'       => 'site-options',
 		)
 	);
 
